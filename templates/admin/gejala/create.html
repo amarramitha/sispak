@@ -1,0 +1,35 @@
+{% extends 'admin/layout.html' %}
+{% block title %}Tambah Gejala{% endblock %}
+
+{% block content %}
+
+<h2 class="fw-bold mb-4 text-center">Tambah Gejala</h2>
+
+<div class="d-flex justify-content-center">
+    <div class="card shadow-sm border-0 rounded-3 p-4 w-100" style="max-width: 600px;">
+        <form method="post">
+            {{ form.csrf_token }}
+
+            <div class="mb-3">
+                {{ form.kode.label(class_='form-label fw-semibold') }}
+                {{ form.kode(class_='form-control rounded-2') }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.nama_gejala.label(class_='form-label fw-semibold') }}
+                {{ form.nama_gejala(class_='form-control rounded-2') }}
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button class="btn text-white px-4" style="background:#009688;">
+                    Simpan
+                </button>
+                <a href="{{ url_for('gejala_index') }}" class="btn btn-secondary px-4">
+                    Batal
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

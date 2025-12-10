@@ -1,0 +1,3 @@
+SECRET_KEY = 'b85451955a3ecda205730ff92ae2c7c754b740bf08e93c1df37d2fc220a5dfe7'
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:@localhost/db_ta'
+SQLALCHEMY_TRACK_MODIFICATIONS = False

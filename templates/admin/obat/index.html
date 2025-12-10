@@ -1,0 +1,327 @@
+{% extends 'admin/layout.html' %}
+{% block title %}Daftar Obat{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        margin-bottom: 20px;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #2d2d2d;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .page-title i {
+        color: var(--turquoise);
+        font-size: 32px;
+    }
+
+    .stats-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background: linear-gradient(135deg, var(--turquoise), var(--turquoise-dark));
+        border-radius: 50px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 14px;
+        box-shadow: 0 4px 12px rgba(30, 187, 172, 0.3);
+    }
+
+    .stats-badge i {
+        font-size: 16px;
+    }
+
+    .btn-add {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 28px;
+        background: linear-gradient(135deg, var(--turquoise), var(--turquoise-dark));
+        border: none;
+        border-radius: 12px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 15px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(30, 187, 172, 0.3);
+    }
+
+    .btn-add:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(30, 187, 172, 0.4);
+        color: #fff;
+    }
+
+    .data-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .table-responsive {
+        border-radius: 16px;
+    }
+
+    .table {
+        margin-bottom: 0;
+        min-width: 1400px;
+    }
+
+    .table thead th {
+        background: var(--turquoise);
+        color: #fff;
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 16px 12px;
+        border: none;
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        text-align: center;
+    }
+
+    .table tbody tr {
+        border-bottom: 1px solid #f0f0f0;
+        transition: all 0.2s ease;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(30, 187, 172, 0.05);
+    }
+
+    .table tbody td {
+        padding: 14px 12px;
+        vertical-align: middle;
+        color: #555;
+        font-size: 13px;
+    }
+
+    .kategori-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        background: rgba(201, 230, 102, 0.2);
+        border: 1px solid var(--leaf-green);
+        border-radius: 6px;
+        color: var(--leaf-green-dark);
+        font-weight: 600;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .golongan-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        background: rgba(30, 187, 172, 0.1);
+        border-radius: 6px;
+        color: var(--turquoise);
+        font-weight: 600;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .btn-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        white-space: nowrap;
+        margin: 2px;
+    }
+
+    .btn-edit {
+        background: var(--yellow);
+        color: #2d2d2d;
+    }
+
+    .btn-edit:hover {
+        background: var(--yellow-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 227, 100, 0.4);
+        color: #2d2d2d;
+    }
+
+    .btn-delete {
+        background: #dc3545;
+        color: #fff;
+    }
+
+    .btn-delete:hover {
+        background: #c82333;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+        color: #fff;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+    }
+
+    .empty-state i {
+        font-size: 64px;
+        color: #ddd;
+        margin-bottom: 20px;
+    }
+
+    .empty-state h5 {
+        color: #666;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .empty-state p {
+        color: #999;
+        font-size: 14px;
+    }
+
+    .text-truncate-custom {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .scroll-hint {
+        background: rgba(30, 187, 172, 0.1);
+        padding: 12px;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 15px;
+        color: var(--turquoise);
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .scroll-hint i {
+        margin-right: 6px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="page-header">
+    <h1 class="page-title">
+        <!-- <i class="bi bi-capsule"></i> -->
+        <span>Daftar Obat</span>
+    </h1>
+</div>
+
+<!-- Action Bar -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="stats-badge">
+        <i class="bi bi-list-check"></i>
+        <span>Total Data: {{ data|length }}</span>
+    </div>
+
+    <a href="{{ url_for('obat_create') }}" class="btn-add">
+        <i class="bi bi-plus-circle"></i>
+        <span>Tambah Obat</span>
+    </a>
+</div>
+
+<!-- Scroll Hint
+<div class="scroll-hint">
+    <i class="bi bi-arrow-left-right"></i>
+    Scroll ke kanan untuk melihat lebih banyak informasi
+</div> -->
+
+<!-- Data Table -->
+<div class="data-card">
+    <div class="table-responsive">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Kategori</th>
+                    <th>Nama Obat</th>
+                    <th>Golongan</th>
+                    <th>Harga</th>
+                    <th>Deskripsi</th>
+                    <th>Indikasi</th>
+                    <th>Komposisi</th>
+                    <th>Dosis</th>
+                    <th>Kontraindikasi</th>
+                    <th>Efek Samping</th>
+                    <th>Manufaktur</th>
+                    <th>Warning</th>
+                    <th style="width:180px;">Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for o in data %}
+                <tr>
+                    <td>
+                        <span class="kategori-badge">
+                            {{ o.kategori.nama_kategori if o.kategori else '-' }}
+                        </span>
+                    </td>
+                    <td><strong>{{ o.nama_obat }}</strong></td>
+                    <td>
+                        <span class="golongan-badge">
+                            {{ o.golongan if o.golongan else '-' }}
+                        </span>
+                    </td>
+                    <td><div class="text-truncate-custom">{{ o.harga }}</div></td>
+                    <td><div class="text-truncate-custom">{{ o.deskripsi }}</div></td>
+                    <td><div class="text-truncate-custom">{{ o.indikasi }}</div></td>
+                    <td><div class="text-truncate-custom">{{ o.komposisi }}</div></td>
+                    <td><div class="text-truncate-custom">{{ o.dosis }}</div></td>
+                    <td><div class="text-truncate-custom">{{ o.kontraindikasi }}</div></td>
+                    <td><div class="text-truncate-custom">{{ o.efek_samping }}</div></td>
+                    <td>{{ o.manufaktur }}</td>
+                    <td><div class="text-truncate-custom">{{ o.warning }}</div></td>
+                    <td>
+                        <a class="btn-action btn-edit"
+                           href="{{ url_for('obat_edit', kode=o.kode) }}">
+                            <i class="bi bi-pencil-square"></i>
+                            <span>Edit</span>
+                        </a>
+
+                        <a class="btn-action btn-delete"
+                           href="{{ url_for('obat_delete', kode=o.kode) }}"
+                           onclick="return confirm('Apakah Anda yakin ingin menghapus obat ini?');">
+                            <i class="bi bi-trash"></i>
+                            <span>Hapus</span>
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="13">
+                        <div class="empty-state">
+                            <i class="bi bi-inbox"></i>
+                            <h5>Belum Ada Data Obat</h5>
+                            <p>Klik tombol "Tambah Obat" untuk menambahkan data pertama Anda.</p>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

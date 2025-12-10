@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Rekomendasi Obat - Sistem Pakar</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --turquoise: #1EBBAC;
+            --turquoise-dark: #159888;
+            --leaf-green: #C9E666;
+            --leaf-green-dark: #8FBF3F;
+            --yellow: #ffe364;
+            --yellow-dark: #ffdb3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: "Poppins", sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Header Section */
+        .header-section {
+            background: linear-gradient(135deg, var(--turquoise) 0%, var(--turquoise-dark) 100%);
+            padding: 40px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -150px;
+            right: -150px;
+        }
+
+        .header-section::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            bottom: -100px;
+            left: -100px;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-area {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin-bottom: 30px;
+  padding: 10px 0;
+  z-index: 1;
+}
+
+.logo-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  z-index: 2;
+}
+
+.logo-area img {
+  height: 50px !important;
+  width: auto;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* OVAL LOGO — ASLI, TIDAK DIUBAH */
+.logo-bg-curve {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 70px;
+  background: #ffffff;
+  border-radius: 90px / 90px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  z-index: 0;
+}
+
+.logo-wrapper:hover img {
+  transform: scale(1.08);
+}
+
+
+/* ================= TABLET (≤ 768px) ================= */
+
+@media (max-width: 768px) {
+  .logo-area {
+    gap: 40px;
+    margin-bottom: 25px;
+  }
+
+  .logo-wrapper {
+    width: 45px;
+    height: 45px;
+  }
+
+  .logo-area img {
+    height: 40px;
+  }
+
+  /* OVAL — PROPORSIONAL, BENTUK TIDAK DIUBAH */
+  .logo-bg-curve {
+    width: 200px;
+    height: 65px;
+    top: -3px;
+    border-radius: 90px / 90px;
+  }
+}
+
+
+/* ================= MOBILE (≤ 480px) ================= */
+
+@media (max-width: 480px) {
+  .logo-area {
+    gap: 25px;
+    margin-bottom: 20px;
+  }
+
+  .logo-wrapper {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo-area img {
+    height: 34px;
+  }
+
+  /* OVAL MOBILE — MASIH SAMA BENTUK, HANYA DIPERKECIL */
+  .logo-bg-curve {
+    width: 180px;
+    height: 55px;
+    top: -6px;
+    border-radius: 90px / 90px;
+  }
+}
+
+
+        .header-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .header-title i {
+            font-size: 36px;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: -30px auto 40px;
+            padding: 0 20px;
+            position: relative;
+           
+        }
+
+        /* Gejala Card */
+        .gejala-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            margin-bottom: 25px;
+        }
+
+        .gejala-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .gejala-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--leaf-green), var(--leaf-green-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #2d2d2d;
+            box-shadow: 0 4px 12px rgba(201, 230, 102, 0.3);
+        }
+
+        .gejala-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin: 0;
+        }
+
+        .gejala-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 12px;
+        }
+
+        .gejala-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: rgba(201, 230, 102, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid var(--leaf-green);
+            font-size: 15px;
+            color: #333;
+        }
+
+        .gejala-item i {
+            color: var(--turquoise);
+            font-size: 18px;
+        }
+
+        /* Warning Alert */
+        .warning-card {
+            background: linear-gradient(135deg, #fff3cd 0%, #fff8e1 100%);
+            border-left: 6px solid var(--yellow);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .warning-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .warning-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #2d2d2d;
+        }
+
+        .warning-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #856404;
+            margin: 0;
+        }
+
+        .warning-text {
+            font-size: 15px;
+            color: #856404;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--turquoise), var(--turquoise-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(30, 187, 172, 0.3);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin: 0;
+        }
+
+        /* Obat Card */
+        .obat-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .obat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            border-color: var(--turquoise);
+        }
+
+        .obat-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .obat-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 20px;
+        }
+
+        .obat-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, var(--yellow), var(--yellow-dark));
+            border-radius: 50px;
+            color: #2d2d2d;
+            font-weight: 600;
+            font-size: 13px;
+            box-shadow: 0 4px 12px rgba(255, 227, 100, 0.4);
+        }
+
+        .obat-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d2d2d;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .obat-name i {
+            color: var(--turquoise);
+            font-size: 28px;
+        }
+
+        .btn-detail {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--turquoise), var(--turquoise-dark));
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(30, 187, 172, 0.3);
+        }
+
+        .btn-detail:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 187, 172, 0.4);
+            color: #fff;
+        }
+
+        .btn-detail i {
+            font-size: 20px;
+        }
+
+        /* Modal */
+        .modal-content {
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+           
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--turquoise), var(--turquoise-dark));
+            color: white;
+            border-radius: 20px 20px 0 0;
+            padding: 25px 30px;
+            border: none;
+        }
+
+        .modal-title {
+            font-weight: 700;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-title i {
+            font-size: 26px;
+        }
+
+        .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .modal-body {
+            padding: 30px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .detail-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--turquoise);
+        }
+
+        .detail-label {
+            font-weight: 700;
+            color: var(--turquoise);
+            font-size: 15px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-label i {
+            font-size: 18px;
+        }
+
+        .detail-value {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .modal-footer {
+            padding: 20px 30px;
+            border: none;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .empty-state i {
+            font-size: 80px;
+            color: #ddd;
+            margin-bottom: 25px;
+        }
+
+        .empty-state h4 {
+            color: #666;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            color: #999;
+            font-size: 15px;
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-back {
+            background: #6c757d;
+            color: #fff;
+        }
+
+        .btn-back:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
+
+        .btn-new {
+            background: linear-gradient(135deg, var(--leaf-green), var(--leaf-green-dark));
+            color: #2d2d2d;
+        }
+
+        .btn-new:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(201, 230, 102, 0.4);
+            color: #2d2d2d;
+        }
+
+        /* Responsive - General Styles */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 26px;
+            }
+
+            .gejala-list {
+                grid-template-columns: 1fr;
+            }
+
+            .obat-name {
+                font-size: 20px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .btn-nav {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 22px;
+            }
+
+            .header-title i {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Header Section -->
+<div class="header-section">
+  <div class="header-content text-center">
+
+    <!-- Background Curve Behind Logos -->
+    <div class="logo-bg-curve"></div>
+
+    <!-- Logos -->
+    <div class="logo-area">
+      <div class="logo-wrapper">
+        <img src="/static/logokemenkes.png" alt="Logo Kemenkes">
+      </div>
+      <div class="logo-wrapper">
+        <img src="/static/GEMAT.png" alt="Logo Gema Cermat">
+      </div>
+    </div>
+
+    <!-- Title -->
+    <h1 class="header-title">
+      <i class="bi bi-capsule-pill"></i>
+      <span>Hasil Rekomendasi Obat</span>
+    </h1>
+
+  </div>
+</div>
+
+<!-- Main Container -->
+<div class="main-container">
+
+    <!-- Gejala Card -->
+    <div class="gejala-card">
+        <div class="gejala-header">
+            <div class="gejala-icon">
+                <i class="bi bi-clipboard-check"></i>
+            </div>
+            <h3 class="gejala-title">Gejala yang Anda Pilih</h3>
+        </div>
+
+        {% if gejala_terpilih %}
+            <ul class="gejala-list">
+                {% for g in gejala_terpilih %}
+                    <li class="gejala-item">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span>{{ g }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted fst-italic mb-0">Tidak ada gejala yang dipilih.</p>
+        {% endif %}
+    </div>
+
+    <!-- Warning Card -->
+    <div class="warning-card">
+        <div class="warning-header">
+            <div class="warning-icon">
+                <i class="bi bi-exclamation-triangle"></i>
+            </div>
+            <h4 class="warning-title">Perhatian Penting</h4>
+        </div>
+        <p class="warning-text">
+            <strong>Wajib membaca detail obat sebelum digunakan.</strong><br>
+            Jika gejala tidak membaik dalam 3-4 hari, segera konsultasikan ke dokter atau tenaga kesehatan.
+        </p>
+    </div>
+
+    <!-- Section Header -->
+    <div class="section-header">
+        <div class="section-icon">
+            <i class="bi bi-stars"></i>
+        </div>
+        <h3 class="section-title">Rekomendasi Obat untuk Anda</h3>
+    </div>
+
+    {% if obat_rekomendasi|length == 0 %}
+        <div class="empty-state">
+            <i class="bi bi-inbox"></i>
+            <h4>Tidak Ditemukan Rekomendasi</h4>
+            <p>Maaf, sistem tidak menemukan rekomendasi obat yang sesuai dengan gejala yang Anda pilih. Silakan coba lagi dengan memilih gejala yang berbeda atau konsultasikan langsung dengan tenaga kesehatan.</p>
+            <!-- <a href="/konsultasi" class="btn-nav btn-new">
+                <i class="bi bi-arrow-clockwise"></i>
+                <span>Coba Konsultasi Lagi</span>
+            </a> -->
+        </div>
+    {% else %}
+
+        <div class="row g-4">
+        {% for o in obat_rekomendasi %}
+            <div class="col-lg-6">
+                <div class="obat-card">
+
+                    <div class="obat-image-wrapper">
+                        {% if o.gambar %}
+                            <img src="{{ url_for('static', filename='obat/' ~ o.gambar) }}"
+                                 alt="{{ o.nama_obat }}"
+                                 class="obat-image">
+                        {% else %}
+                            <i class="bi bi-capsule" style="font-size: 80px; color: #ddd;"></i>
+                        {% endif %}
+                        <span class="obat-badge">Direkomendasikan</span>
+                    </div>
+
+                    <h4 class="obat-name">
+                        <i class="bi bi-capsule"></i>
+                        <span>{{ o.nama_obat }}</span>
+                    </h4>
+
+                    <!-- Button Detail -->
+                    <button class="btn-detail"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal{{ loop.index0 }}">
+                        <i class="bi bi-info-circle"></i>
+                        <span>Lihat Detail Lengkap</span>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="modal{{ loop.index0 }}" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i class="bi bi-info-circle-fill"></i>
+                                <span>Detail: {{ o.nama_obat }}</span>
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            {% if o.golongan %}
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        <i class="bi bi-tag"></i>
+                                        <span>Golongan Obat</span>
+                                    </div>
+                                    <p class="detail-value">{{ o.golongan }}</p>
+                                </div>
+                            {% endif %}
+
+                            {% if o.deskripsi %}
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        <i class="bi bi-card-text"></i>
+                                        <span>Deskripsi</span>
+                                    </div>
+                                    <p class="detail-value">{{ o.deskripsi }}</p>
+                                </div>
+                            {% endif %}
+
+                            {% if o.indikasi %}
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        <i class="bi bi-check-circle"></i>
+                                        <span>Indikasi / Kegunaan</span>
+                                    </div>
+                                    <p class="detail-value">{{ o.indikasi }}</p>
+                                </div>
+                            {% endif %}
+
+                            {% if o.komposisi %}
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        <i class="bi bi-prescription2"></i>
+                                        <span>Komposisi</span>
+                                    </div>
+                                    <p class="detail-value">{{ o.komposisi }}</p>
+                                </div>
+                            {% endif %}
+
+                            {% if o.dosis %}
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        <i class="bi bi-speedometer2"></i>
+                                        <span>Dosis & Aturan Pakai</span>
+                                    </div>
+                                    <p class="detail-value">{{ o.dosis }}</p>
+                                </div>
+                            {% endif %}
+
+                            {% if o.kontraindikasi %}
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        <i class="bi bi-x-circle"></i>
+                                        <span>Kontraindikasi</span>
+                                    </div>
+                                    <p class="detail-value">{{ o.kontraindikasi }}</p>
+                                </div>
+                            {% endif %}
+
+                            {% if o.efek_samping %}
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        <i class="bi bi-exclamation-triangle"></i>
+                                        <span>Efek Samping</span>
+                                    </div>
+                                    <p class="detail-value">{{ o.efek_samping }}</p>
+                                </div>
+                            {% endif %}
+
+                            {% if o.warning %}
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        <i class="bi bi-shield-exclamation"></i>
+                                        <span>Perhatian</span>
+                                    </div>
+                                    <p class="detail-value">{{ o.warning }}</p>
+                                </div>
+                            {% endif %}
+
+                            {% if o.harga %}
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        <i class="bi bi-cash"></i>
+                                        <span>Harga Estimasi</span>
+                                    </div>
+                                    <p class="detail-value">{{ o.harga }}</p>
+                                </div>
+                            {% endif %}
+
+                            {% if o.manufaktur %}
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        <i class="bi bi-building"></i>
+                                        <span>Manufaktur</span>
+                                    </div>
+                                    <p class="detail-value">{{ o.manufaktur }}</p>
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="bi bi-x-lg"></i>
+                                <span>Tutup</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+        <a href="/" class="btn-nav btn-back">
+            <i class="bi bi-house"></i>
+            <span>Kembali ke Beranda</span>
+        </a>
+
+        <a href="/konsultasi" class="btn-nav btn-new">
+            <i class="bi bi-arrow-clockwise"></i>
+            <span>Konsultasi Lagi</span>
+        </a>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

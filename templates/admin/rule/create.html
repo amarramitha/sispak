@@ -1,0 +1,63 @@
+{% extends 'admin/layout.html' %}
+{% block title %}Tambah Rule{% endblock %}
+{% block content %}
+
+<h2 class="fw-bold mb-4 text-center">Tambah Rule</h2>
+
+<div class="d-flex justify-content-center">
+    <div class="card shadow-sm border-0 rounded-3 p-4 w-100" style="max-width: 600px;">
+
+        <form method="post">
+            {{ form.csrf_token }}
+
+            <!-- PILIH GEJALA -->
+            <div class="mb-3">
+                {{ form.gejala_kode.label(class_='form-label fw-semibold') }}
+
+                <select name="gejala_kode" class="form-select rounded-2">
+                    {% for value, label in form.gejala_kode.choices %}
+                        <option value="{{ value }}">{{ value }} — {{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- PILIH KATEGORI (MULTIPLE) -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Kategori Obat</label>
+
+                <div class="border rounded-2 p-3" style="background:#fafafa;">
+                    {% for value, label in form.kategori_list.choices %}
+                        <div class="form-check mb-1">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="kategori_list"
+                                   value="{{ value }}">
+                            <label class="form-check-label">
+                                {{ value }} — {{ label }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- NILAI KEPERCAYAAN -->
+            <div class="mb-3">
+                {{ form.nilai_kepercayaan.label(class_='form-label fw-semibold') }}
+                {{ form.nilai_kepercayaan(class_='form-control rounded-2', step='0.01') }}
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button class="btn text-white px-4" style="background:#009688;">
+                    Simpan
+                </button>
+                <a href="{{ url_for('rule_index') }}" class="btn btn-secondary px-4">
+                    Batal
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

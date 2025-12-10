@@ -1,0 +1,97 @@
+{% extends 'admin/layout.html' %}
+{% block title %}Tambah Obat{% endblock %}
+
+{% block content %}
+
+<h2 class="fw-bold mb-4 text-center">Tambah Obat</h2>
+
+<div class="d-flex justify-content-center">
+    <div class="card shadow-sm border-0 rounded-3 p-4 w-100" style="max-width: 650px;">
+        <form method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+
+            <div class="mb-3">
+                {{ form.kode.label(class_='form-label fw-semibold') }}
+                {{ form.kode(class_='form-control rounded-2') }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.nama_obat.label(class_='form-label fw-semibold') }}
+                {{ form.nama_obat(class_='form-control rounded-2') }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.golongan.label(class_='form-label fw-semibold') }}
+                {{ form.golongan(class_='form-control rounded-2') }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.kategori_kode.label(class_='form-label fw-semibold') }}
+                {{ form.kategori_kode(class_='form-select rounded-2') }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.deskripsi.label(class_='form-label fw-semibold') }}
+                {{ form.deskripsi(class_='form-control rounded-2', rows=3) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.indikasi.label(class_='form-label fw-semibold') }}
+                {{ form.indikasi(class_='form-control rounded-2', rows=3) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.komposisi.label(class_='form-label fw-semibold') }}
+                {{ form.komposisi(class_='form-control rounded-2', rows=3) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.dosis.label(class_='form-label fw-semibold') }}
+                {{ form.dosis(class_='form-control rounded-2', rows=3) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.kontraindikasi.label(class_='form-label fw-semibold') }}
+                {{ form.kontraindikasi(class_='form-control rounded-2', rows=3) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.efek_samping.label(class_='form-label fw-semibold') }}
+                {{ form.efek_samping(class_='form-control rounded-2', rows=3) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.warning.label(class_='form-label fw-semibold') }}
+                {{ form.warning(class_='form-control rounded-2', rows=3) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.harga.label(class_='form-label fw-semibold') }}
+                {{ form.harga(class_='form-control rounded-2') }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.manufaktur.label(class_='form-label fw-semibold') }}
+                {{ form.manufaktur(class_='form-control rounded-2') }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.gambar.label(class_='form-label fw-semibold') }}
+                {{ form.gambar(class_='form-control rounded-2') }}
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button class="btn text-white px-4" style="background:#009688;">
+                    Simpan
+                </button>
+
+                <a href="{{ url_for('obat_index') }}" class="btn btn-secondary px-4">
+                    Batal
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

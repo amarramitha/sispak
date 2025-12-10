@@ -1,0 +1,247 @@
+{% extends 'admin/layout.html' %}
+{% block title %}Daftar Gejala{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        margin-bottom: 30px;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #2d2d2d;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .page-title i {
+        color: var(--turquoise);
+        font-size: 32px;
+    }
+
+    .stats-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background: linear-gradient(135deg, var(--turquoise), var(--turquoise-dark));
+        border-radius: 50px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 14px;
+        box-shadow: 0 4px 12px rgba(30, 187, 172, 0.3);
+    }
+
+    .stats-badge i {
+        font-size: 16px;
+    }
+
+    .btn-add {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 28px;
+        background: linear-gradient(135deg, var(--turquoise), var(--turquoise-dark));
+        border: none;
+        border-radius: 12px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 15px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(30, 187, 172, 0.3);
+    }
+
+    .btn-add:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(30, 187, 172, 0.4);
+        color: #fff;
+    }
+
+    .data-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table thead th {
+        background: var(--turquoise);
+        color: #fff;
+        font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 18px 20px;
+        border: none;
+        text-align: center;
+    }
+
+    .table tbody tr {
+        border-bottom: 1px solid #f0f0f0;
+        transition: all 0.2s ease;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(30, 187, 172, 0.05);
+    }
+
+    .table tbody td {
+        padding: 18px 20px;
+        vertical-align: middle;
+        color: #555;
+        font-size: 14px;
+    }
+
+    .kode-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        background: rgba(30, 187, 172, 0.1);
+        border: 2px solid var(--turquoise);
+        border-radius: 8px;
+        color: var(--turquoise);
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .btn-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    .btn-edit {
+        background: var(--yellow);
+        color: #2d2d2d;
+    }
+
+    .btn-edit:hover {
+        background: var(--yellow-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 227, 100, 0.4);
+        color: #2d2d2d;
+    }
+
+    .btn-delete {
+        background: #dc3545;
+        color: #fff;
+    }
+
+    .btn-delete:hover {
+        background: #c82333;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+        color: #fff;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+    }
+
+    .empty-state i {
+        font-size: 64px;
+        color: #ddd;
+        margin-bottom: 20px;
+    }
+
+    .empty-state h5 {
+        color: #666;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .empty-state p {
+        color: #999;
+        font-size: 14px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="page-header">
+    <h1 class="page-title">
+        <!-- <i class="bi bi-heart-pulse"></i> -->
+        <span>Daftar Gejala</span>
+    </h1>
+</div>
+
+<!-- Action Bar -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="stats-badge">
+        <i class="bi bi-list-check"></i>
+        <span>Total Data: {{ data|length }}</span>
+    </div>
+
+    <a href="{{ url_for('gejala_create') }}" class="btn-add">
+        <i class="bi bi-plus-circle"></i>
+        <span>Tambah Gejala</span>
+    </a>
+</div>
+
+<!-- Data Table -->
+<div class="data-card">
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width:150px;">Kode</th>
+                <th>Nama Gejala</th>
+                <th style="width:220px;">Aksi</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for g in data %}
+            <tr>
+                <td>
+                    <span class="kode-badge">{{ g.kode }}</span>
+                </td>
+                <td>{{ g.nama_gejala }}</td>
+                <td>
+                    <a class="btn-action btn-edit"
+                       href="{{ url_for('gejala_edit', kode=g.kode) }}">
+                        <i class="bi bi-pencil-square"></i>
+                        <span>Edit</span>
+                    </a>
+
+                    <a class="btn-action btn-delete"
+                       href="{{ url_for('gejala_delete', kode=g.kode) }}"
+                       onclick="return confirm('Apakah Anda yakin ingin menghapus gejala ini?');">
+                        <i class="bi bi-trash"></i>
+                        <span>Hapus</span>
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">
+                    <div class="empty-state">
+                        <i class="bi bi-inbox"></i>
+                        <h5>Belum Ada Data Gejala</h5>
+                        <p>Klik tombol "Tambah Gejala" untuk menambahkan data pertama Anda.</p>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

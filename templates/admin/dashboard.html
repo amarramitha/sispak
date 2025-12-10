@@ -1,0 +1,343 @@
+{% extends "admin/layout.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        margin-bottom: 35px;
+    }
+
+    .page-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #2d2d2d;
+        margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+        font-size: 16px;
+        color: #666;
+    }
+
+    /* Dashboard Cards */
+    .dash-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        height: 100%;
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dash-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 6px;
+        height: 100%;
+        background: linear-gradient(180deg, var(--card-color-light), var(--card-color-dark));
+    }
+
+    .dash-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        border-color: var(--card-color-light);
+    }
+
+    .card-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, var(--card-color-light), var(--card-color-dark));
+        box-shadow: 0 8px 20px var(--card-shadow);
+    }
+
+    .card-icon i {
+        font-size: 32px;
+        color: #fff;
+    }
+
+    .card-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+    }
+
+    .card-value {
+        font-size: 42px;
+        font-weight: 700;
+        color: var(--card-color-dark);
+        margin-bottom: 20px;
+        line-height: 1;
+    }
+
+    .card-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, var(--card-color-light), var(--card-color-dark));
+        border: none;
+        border-radius: 12px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 14px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px var(--card-shadow);
+    }
+
+    .card-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px var(--card-shadow);
+        color: #fff;
+    }
+
+    /* Card Colors */
+    .card-gejala {
+        --card-color-light: #1EBBAC;
+        --card-color-dark: #159888;
+        --card-shadow: rgba(30, 187, 172, 0.3);
+    }
+
+    .card-obat {
+        --card-color-light: #C9E666;
+        --card-color-dark: #8FBF3F;
+        --card-shadow: rgba(201, 230, 102, 0.3);
+    }
+
+    .card-obat .card-icon i,
+    .card-obat .card-btn {
+        color: #2d2d2d;
+    }
+
+    .card-rule {
+        --card-color-light: #ffe364;
+        --card-color-dark: #ffdb3a;
+        --card-shadow: rgba(255, 227, 100, 0.3);
+    }
+
+    .card-rule .card-icon i,
+    .card-rule .card-btn {
+        color: #2d2d2d;
+    }
+
+    /* Info Section */
+    .info-section {
+        margin-top: 50px;
+    }
+
+    .info-card {
+        background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border-left: 6px solid var(--turquoise);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .info-card::before {
+        content: '';
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 200px;
+        height: 200px;
+        background: var(--turquoise);
+        opacity: 0.05;
+        border-radius: 50%;
+    }
+
+    .info-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2d2d2d;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .info-title i {
+        color: var(--turquoise);
+        font-size: 28px;
+    }
+
+    .info-text {
+        font-size: 16px;
+        line-height: 1.8;
+        color: #555;
+        margin-bottom: 20px;
+    }
+
+    .user-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px;
+        background: var(--turquoise);
+        border-radius: 50px;
+        color: #fff;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(30, 187, 172, 0.3);
+    }
+
+    .user-badge i {
+        font-size: 18px;
+    }
+
+    /* Quick Stats */
+    .quick-stats {
+        margin-top: 30px;
+        padding: 25px;
+        background: rgba(30, 187, 172, 0.05);
+        border-radius: 15px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--turquoise);
+    }
+
+    .stat-label {
+        font-size: 13px;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .page-title {
+            font-size: 26px;
+        }
+
+        .card-value {
+            font-size: 36px;
+        }
+
+        .info-card {
+            padding: 30px 25px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="page-header">
+    <h1 class="page-title">Dashboard Admin</h1>
+    <p class="page-subtitle">Selamat datang di panel administrasi sistem pakar</p>
+</div>
+
+<!-- Dashboard Cards -->
+<div class="row g-4 mb-4">
+
+    <!-- Card Gejala -->
+    <div class="col-lg-4 col-md-6">
+        <div class="dash-card card-gejala">
+            <div class="card-icon">
+                <i class="bi bi-heart-pulse"></i>
+            </div>
+            <div class="card-label">Jumlah Gejala</div>
+            <div class="card-value">{{ gejala_count }}</div>
+            <a href="{{ url_for('gejala_index') }}" class="card-btn">
+                <i class="bi bi-arrow-right-circle"></i>
+                <span>Kelola Gejala</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Card Obat -->
+    <div class="col-lg-4 col-md-6">
+        <div class="dash-card card-obat">
+            <div class="card-icon">
+                <i class="bi bi-capsule"></i>
+            </div>
+            <div class="card-label">Jumlah Obat</div>
+            <div class="card-value">{{ obat_count }}</div>
+            <a href="{{ url_for('obat_index') }}" class="card-btn">
+                <i class="bi bi-arrow-right-circle"></i>
+                <span>Kelola Obat</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Card Rule -->
+    <div class="col-lg-4 col-md-6">
+        <div class="dash-card card-rule">
+            <div class="card-icon">
+                <i class="bi bi-diagram-3"></i>
+            </div>
+            <div class="card-label">Jumlah Rule</div>
+            <div class="card-value">{{ rule_count }}</div>
+            <a href="{{ url_for('rule_index') }}" class="card-btn">
+                <i class="bi bi-arrow-right-circle"></i>
+                <span>Kelola Rule</span>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<!-- Informasi Sistem -->
+<div class="info-section">
+    <div class="info-card">
+        <h3 class="info-title">
+            <i class="bi bi-info-circle"></i>
+            <span>Informasi Sistem</span>
+        </h3>
+
+        <p class="info-text">
+            Sistem Pakar ini dirancang untuk membantu masyarakat
+            dalam melakukan konsultasi terkait penggunaan obat yang benar.
+            Admin dapat mengelola data gejala, obat, serta rule untuk menentukan
+            rekomendasi yang tepat sesuai standar kesehatan.
+        </p>
+
+        <div class="user-badge">
+            <i class="bi bi-person-check"></i>
+            <span>Login sebagai: {{ session.admin }}</span>
+        </div>
+
+        <!-- Quick Stats -->
+        <!-- <div class="quick-stats">
+            <div class="stat-item">
+                <div class="stat-value">{{ gejala_count + obat_count + rule_count }}</div>
+                <div class="stat-label">Total Data</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Modul Aktif</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Status Sistem</div>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}

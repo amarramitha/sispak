@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Gema Cermat - Sistem Pakar</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+.header {
+    background: linear-gradient(135deg, #4db6ac, #81c784);
+    padding: 60px 20px;
+    color: white;
+    text-align: center;
+    border-radius: 0 0 40px 40px;
+}
+.info-card {
+    border-radius: 20px;
+}
+.btn-cute {
+    border-radius: 25px;
+    font-size: 18px;
+    padding: 12px 25px;
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-light bg-light shadow-sm px-3">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/">Gema Cermat</a>
+
+        <a href="{{ url_for('login') }}" class="btn btn-outline-success">
+            Login Admin
+        </a>
+    </div>
+</nav>
+
+<!-- HEADER -->
+<div class="header">
+    <h1 class="fw-bold">Program Gema Cermat</h1>
+    <p class="mt-2">Gerakan Masyarakat Cerdas Menggunakan Obat</p>
+
+    <a href="{{ url_for('konsultasi') }}" class="btn btn-light btn-cute mt-3">
+        Mulai Konsultasi
+    </a>
+</div>
+
+<!-- KONTEN -->
+<div class="container mt-5">
+
+    <div class="card p-4 shadow info-card">
+        <h3 class="fw-bold">Apa itu Gema Cermat?</h3>
+        <p class="mt-2">
+            Gema Cermat (Gerakan Masyarakat Cerdas Menggunakan Obat) adalah program edukasi
+            untuk meningkatkan pemahaman masyarakat mengenai penggunaan obat yang baik,
+            benar, tepat, dan aman.
+        </p>
+
+        <h4 class="fw-bold mt-4">Tujuan Program</h4>
+        <ul>
+            <li>Mendorong masyarakat lebih bijak dalam menggunakan obat</li>
+            <li>Memberikan edukasi penggunaan obat yang tepat</li>
+            <li>Mengurangi risiko kesalahan penggunaan obat</li>
+            <li>Menumbuhkan kesadaran konsultasi sebelum menggunakan obat tertentu</li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>
