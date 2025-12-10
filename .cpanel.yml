@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/lath1977/public_html/flaskapp
+    - export DEPLOYPATH=/home/lath1977/flaskapp
     - /bin/cp -r * $DEPLOYPATH
