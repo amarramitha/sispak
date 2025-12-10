@@ -1,0 +1,6 @@
+Flask==3.0.0
+Flask-Migrate==4.0.5
+SQLAlchemy==2.0.22
+PyMySQL==1.1.0
+WTForms==3.0.1
+Werkzeug==3.0.1
