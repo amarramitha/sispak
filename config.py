@@ -1,3 +1,3 @@
 SECRET_KEY = 'b85451955a3ecda205730ff92ae2c7c754b740bf08e93c1df37d2fc220a5dfe7'
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://lath1977_flask:Amarramitha07@localhost/lath1977_sispak'
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://lath1977_flask:Amarramitha07@localhost/lath1977_flaskapp'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
