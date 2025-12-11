@@ -705,6 +705,11 @@
                             <i class="bi bi-capsule" style="font-size: 80px; color: #ddd;"></i>
                         {% endif %}
                         <span class="obat-badge">Direkomendasikan</span>
+                        {% if o.nilai_keyakinan %}
+                            <span class="obat-badge" style="top: 60px;">
+                                Keyakinan: {{ (o.nilai_keyakinan * 100) | round(1) }}%
+                            </span>
+                            {% endif %}
                     </div>
 
                     <h4 class="obat-name">
