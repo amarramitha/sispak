@@ -1,6 +1,38 @@
 {% extends 'admin/layout.html' %}
 {% block title %}Tambah Kategori Obat{% endblock %}
 
+{% block extra_css %}
+<style>
+    @media (max-width: 768px) {
+        h2 {
+            font-size: 24px !important;
+        }
+
+        .card {
+            max-width: 100% !important;
+        }
+    }
+
+    @media (max-width: 576px) {
+        h2 {
+            font-size: 20px !important;
+        }
+
+        .card {
+            padding: 25px 20px !important;
+        }
+
+        .d-flex.gap-2 {
+            flex-direction: column !important;
+        }
+
+        .d-flex.gap-2 > * {
+            width: 100% !important;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 
 <h2 class="fw-bold mb-4 text-center">Tambah Kategori Obat</h2>
